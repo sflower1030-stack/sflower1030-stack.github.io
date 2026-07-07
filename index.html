@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아베크</title>
+    <title>우리들의 아지트</title>
     <style>
         /* 폰트 및 기본 설정 */
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -133,7 +133,7 @@
             object-fit: cover;
         }
 
-        /* 공지사항 바 */
+        /* 메인 공지사항 바 */
         .notice-bar {
             background-color: #333;
             color: white;
@@ -143,6 +143,10 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
+        }
+        .notice-bar:hover {
+            background-color: #444;
         }
         .notice-badge {
             background-color: var(--primary-color);
@@ -167,7 +171,40 @@
             margin-bottom: 25px;
         }
 
-        /* ⭐️ 친구별 개인 사진첩 그리드 스타일 ⭐️ */
+        /* ⭐️ 공지사항 리스트 스타일 ⭐️ */
+        .notice-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notice-item {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 25px 0;
+        }
+        .notice-item:last-child {
+            border-bottom: none;
+        }
+        .notice-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+        .notice-date {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+        }
+        .notice-content {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* 개인 사진첩 그리드 스타일 */
         .album-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -244,7 +281,7 @@
             <div class="logo">OUR HIDEOUT</div>
             <nav>
                 <a class="nav-link active" onclick="showSection('home', this)">홈</a>
-                <a class="nav-link" onclick="showSection('board', this)">방명록</a>
+                <a class="nav-link" onclick="showSection('notice', this)">공지사항</a> <a class="nav-link" onclick="showSection('board', this)">방명록</a>
                 <a class="nav-link" onclick="showSection('gallery', this)">사진첩</a>
             </nav>
         </div>
@@ -264,12 +301,39 @@
                 </div>
             </div>
             
-            <div class="notice-bar">
+            <div class="notice-bar" onclick="document.querySelectorAll('.nav-link')[1].click()">
                 <span class="notice-badge">공지사항</span>
-                <span>친구들 각자의 개인 사진첩 메뉴가 추가되었습니다! 자유롭게 업로드해주세요.</span>
+                <span>우리들의 아지트 홈페이지가 공식 오픈했습니다! (클릭해서 확인)</span>
             </div>
         </div>
 
+        <div id="notice" class="section">
+            <div class="card">
+                <h2>📢 공지사항</h2>
+                <p style="color: var(--text-sub); margin-bottom: 30px;">아지트의 새로운 소식과 규칙을 확인하세요.</p>
+                
+                <ul class="notice-list">
+                    <li class="notice-item">
+                        <div class="notice-title">🎉 우리들의 아지트 홈페이지 공식 오픈!</div>
+                        <div class="notice-date">2026.07.07</div>
+                        <div class="notice-content">
+                            드디어 우리들만의 웹사이트가 완성되었습니다!<br>
+                            방명록에 인사 한마디씩 남겨주시고, 각자 만들어진 사진첩 공간에 멋진 추억 사진들도 팍팍 올려주세요. 앞으로 자주 놀러와 주시길 바랍니다!
+                        </div>
+                    </li>
+                    
+                    <li class="notice-item">
+                        <div class="notice-title">💡 홈페이지 이용 규칙 안내</div>
+                        <div class="notice-date">2026.07.07</div>
+                        <div class="notice-content">
+                            <strong>1. 존중과 배려:</strong> 항상 서로를 배려하는 예쁜 말 사용하기<br>
+                            <strong>2. 사진 업로드:</strong> 친구의 흑역사 사진을 올릴 때는 미리 허락 맡기(?)<br>
+                            <strong>3. 적극적인 참여:</strong> 생각날 때마다 들어와서 방명록 남기고 안부 묻기
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
        <!-- 방명록 섹션 -->
         <div id="board" class="section">
             <h2>📝 방명록</h2>

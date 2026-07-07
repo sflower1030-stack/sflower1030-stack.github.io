@@ -3,164 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우리들의 아지트</title>
+    <title> 아베크</title>
     <style>
+        /* 폰트 및 기본 설정 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
         :root {
-            --primary-color: #4A90E2;
-            --bg-color: #f4f7f6;
-            --text-color: #333;
+            --primary-color: #00B4A3; /* 이미지의 청록색 포인트 컬러 */
+            --bg-color: #f4f6f8;      /* 연한 회색 배경 */
+            --text-main: #222;
+            --text-sub: #777;
         }
+        
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            font-family: 'Pretendard', sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
+            overflow-y: scroll;
         }
+
+        /* 상단 네비게이션 바 (가운데 정렬, 흰색 배경) */
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: white;
+            border-bottom: 1px solid #eaeaea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
         }
         nav {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            gap: 40px;
         }
         nav a {
             text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
+            transition: color 0.2s;
         }
-        nav a:hover {
+        nav a:hover, nav a.active {
             color: var(--primary-color);
         }
+
+        /* 메인 컨텐츠 영역 */
         .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: 60vh;
         }
+
+        /* 섹션 전환 애니메이션 */
         .section {
             display: none;
+            animation: fadeIn 0.4s ease-out;
         }
         .section.active {
             display: block;
-            animation: fadeIn 0.5s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .board-item {
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
+
+        /* 홈 화면 배너 (참고 이미지 스타일) */
+        .hero-banner {
+            display: flex;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            overflow: hidden;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        
-        /* 사진첩 디자인 업데이트 */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        .hero-text {
+            flex: 1;
+            padding: 60px 50px;
+            min-width: 300px;
+        }
+        .hero-badge {
+            background-color: #f0f0f0;
+            color: #555;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .hero-text h1 {
+            font-size: 42px;
+            line-height: 1.3;
+            margin: 0 0 20px 0;
+            font-weight: 800;
+        }
+        .hero-text h1 span {
+            color: var(--primary-color);
+        }
+        .hero-text p {
+            color: var(--text-sub);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .hero-image {
+            flex: 1;
+            background-color: var(--primary-color);
+            min-height: 350px;
+            position: relative;
+        }
+        /* 여러분이 올린 사진을 메인에도 띄워줍니다 */
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 공지사항 바 (참고 이미지의 검은색 바 스타일) */
+        .notice-bar {
+            background-color: #333;
+            color: white;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
             gap: 15px;
         }
-        .gallery-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover; /* 사진 비율이 깨지지 않고 꽉 차게 보이게 해줍니다 */
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s; /* 마우스 올렸을 때 애니메이션 */
+        .notice-badge {
+            background-color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
         }
-        .gallery-img:hover {
-            transform: scale(1.05); /* 마우스 올리면 사진이 살짝 커집니다 */
+
+        /* 카드 스타일 (방명록, 사진첩을 감싸는 하얀 박스) */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
         }
-        
+        .card h2 {
+            margin-top: 0;
+            font-size: 28px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* 푸터 (하단) */
         footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            color: #777;
-            font-size: 0.9em;
+            background-color: #2b2b2b;
+            color: #999;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .footer-inner strong {
+            color: white;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
+    <!-- 헤더 / 메뉴바 -->
     <header>
-        <h1>✨ 우리들의 비밀 아지트</h1>
-        <p>환영합니다! 우리만의 공간입니다.</p>
+        <div class="header-inner">
+            <div class="logo">OUR HIDEOUT</div>
+            <nav>
+                <a class="nav-link active" onclick="showSection('home', this)">홈</a>
+                <a class="nav-link" onclick="showSection('board', this)">방명록</a>
+                <a class="nav-link" onclick="showSection('gallery', this)">사진첩</a>
+            </nav>
+        </div>
     </header>
 
-    <nav>
-        <a onclick="showSection('home')">홈</a>
-        <a onclick="showSection('board')">방명록</a>
-        <a onclick="showSection('gallery')">사진첩</a>
-    </nav>
-
     <div class="container">
-        <!-- 홈 섹션 -->
+        
+        <!-- 1. 홈 섹션 -->
         <div id="home" class="section active">
-            <h2>👋 안녕!</h2>
-            <p>이곳은 친구들과 함께 소통하고 일상을 공유하기 위해 만든 공간입니다.</p>
-            <p>자유롭게 글을 남기고 사진을 올려주세요!</p>
-            <ul>
-                <li><strong>규칙 1:</strong> 예쁜 말 쓰기</li>
-                <li><strong>규칙 2:</strong> 흑역사 사진은 신중하게 올리기</li>
-                <li><strong>규칙 3:</strong> 자주 놀러오기</li>
-            </ul>
-        </div>
-
-        <!-- 방명록 섹션 -->
-        <div id="board" class="section">
-            <h2>📝 방명록</h2>
-            <p>자유롭게 이야기를 남겨주세요!</p>
+            <!-- 메인 배너 -->
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <span class="hero-badge">BEST FRIENDS</span>
+                    <h1>한계를 넘다,<br><span>우리의 추억</span>을 열다!</h1>
+                    <p>우리들만의 프라이빗한 아지트입니다.<br>자유롭게 소통하고 일상을 맘껏 공유해주세요.</p>
+                </div>
+                <div class="hero-image">
+                    <!-- pic1.jpg가 있으면 배너 우측에 띄워줍니다 -->
+                    <img src="pic1.jpg" alt="메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+            </div>
             
-            <!-- 무료 댓글 위젯(HTML Comment Box) 시작 -->
-            <div id="HCB_comment_box">방명록을 불러오는 중입니다...</div>
-            <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
-            <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&opts=16862&num=10&ts="+new Date().getTime());if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-            <!-- 무료 댓글 위젯 끝 -->
-        </div>
-
-        <!-- 사진첩 섹션 -->
-        <div id="gallery" class="section">
-            <h2>📸 사진첩</h2>
-            <p>우리들의 추억을 기록하는 공간입니다.</p>
-            <div class="gallery">
-                <!-- 
-                  💡 깃허브에 올린 사진 파일 이름과 src=" " 안의 이름을 똑같이 맞춰주세요.
-                  사진이 더 필요하면 아래 코드를 복사해서 계속 추가하면 됩니다! 
-                -->
-                <img src="pic1.jpg" alt="추억1" class="gallery-img">
-                <img src="pic2.jpg" alt="추억2" class="gallery-img">
-                
+            <!-- 검은색 공지 바 -->
+            <div class="notice-bar">
+                <span class="notice-badge">공지사항</span>
+                <span>새로운 홈페이지 디자인을 오픈했습니다! 자주 놀러와주세요.</span>
             </div>
         </div>
-    </div>
 
+        <!-- 2. 방명록 섹션 -->
+        <div id="board" class="section">
+            <div class="card">
+                <h2>📝 방명록</h2>
+                
+                <!-- 무료 댓글 위젯(HTML Comment Box) -->
+                <div id="HCB_comment_box">방명록을 불러오는 중입니다...</div>
+                <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+                <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&opts=16862&num=10&ts="+new Date().getTime());if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+            </div>
+        </div>
+
+        <!-- 3. 사진첩 섹션 -->
+<div id="gallery" class="section">
+            <div class="card">
+                <h2>📸 우리들의 사진첩</h2>
+                <p style="color: var(--text-sub); margin-bottom: 30px; line-height: 1.6;">
+                    우리들의 소중한 추억을 함께 공유하는 공간입니다.<br>
+                    아래 버튼을 누르면 친구들 모두가 자유롭게 사진을 올리고 볼 수 있는 <strong>공유 앨범</strong>으로 이동합니다!
+                </p>
+                
+                <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 16px; padding: 50px 20px; text-align: center; margin-bottom: 30px;">
+                    <div style="font-size: 50px; margin-bottom: 15px; animation: pulse 2s infinite;">✨</div>
+                    <h3 style="margin: 0 0 10px 0; font-size: 22px; font-weight: 700;">우리들만의 추억 저장소</h3>
+                    <p style="color: var(--text-sub); font-size: 14px; margin: 0 0 30px 0;">사진 업로드 및 실시간 확인이 가능합니다.</p>
+                    
+                    <a href="여기에_공유_링크_주소를_넣어주세요" target="_blank" style="display: inline-block; background-color: var(--primary-color); color: white; text-decoration: none; padding: 15px 35px; border-radius: 30px; font-weight: bold; font-size: 16px; box-shadow: 0 6px 20px rgba(0,180,163,0.2); transition: all 0.2s;">
+                        📸 사진 올리기 / 보러가기
+                    </a>
+                </div>
+
+                <div style="font-size: 14px; color: #666; background-color: #f9f9f9; padding: 20px; border-radius: 10px; line-height: 1.8;">
+                    <strong style="color: var(--text-main);">💡 이용 방법:</strong><br>
+                    1. 위의 <strong>[사진 올리기 / 보러가기]</strong> 버튼을 누릅니다.<br>
+                    2. 연결된 공유 앨범에서 사진 추가 버튼을 눌러 우리들의 추억을 마음껏 업로드해 주세요!
+                </div>
+            </div>
+        </div>
+
+    <!-- 푸터 -->
     <footer>
-        &copy; 2026 우리들의 아지트. All rights reserved.
+        <div class="footer-inner">
+            <strong>고객센터 0000-0000</strong>
+            <p>※ 문제가 발생하면 친구 단톡방에 문의하세요.<br>
+            &copy; 2026 OUR HIDEOUT. All rights reserved.</p>
+        </div>
     </footer>
 
+    <!-- 탭 전환 스크립트 -->
     <script>
-        function showSection(sectionId) {
-            // 모든 섹션 숨기기
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
+        function showSection(sectionId, element) {
+            // 모든 섹션과 메뉴 숨기기
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
 
-            // 선택한 섹션만 보여주기
-            const activeSection = document.getElementById(sectionId);
-            activeSection.classList.add('active');
+            // 선택한 섹션과 메뉴 활성화
+            document.getElementById(sectionId).classList.add('active');
+            element.classList.add('active');
+            
+            // 페이지 상단으로 부드럽게 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
